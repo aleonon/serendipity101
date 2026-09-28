@@ -1,0 +1,18 @@
+---
+description: Invariantes técnicas y de seguridad de Serendipity
+alwaysApply: true
+---
+
+# Invariantes del proyecto
+
+- Usa Node.js 22 LTS y `pnpm`; no uses Node.js 23.
+- Mantén TypeScript en modo estricto. No uses `any` para ocultar errores.
+- Usa Medusa v2 y comprueba las APIs y tipos realmente instalados antes de integrarlos.
+- Usa Supabase únicamente como PostgreSQL administrado para el backend de Medusa.
+- No añadas Supabase Auth, Storage, SDK de navegador ni acceso Browser → PostgreSQL.
+- Nunca expongas `DATABASE_URL` mediante variables `NEXT_PUBLIC_*`, logs o código cliente.
+- No confirmes `.env`, `.env.local` ni secretos en Git; comprueba `.gitignore`.
+- No instales Redis ni configures `REDIS_URL` salvo que un requisito futuro lo justifique.
+- No hardcodees un proveedor de pagos inexistente.
+- Trabaja por fases, conserva código funcional y prioriza una arquitectura mantenible.
+- Antes de declarar completa una fase, ejecuta los scripts relevantes de typecheck, lint y build, y corrige los errores introducidos.
