@@ -21,7 +21,8 @@ coverage/
 **/.medusa/
 **/uploads/
 medusa-db.sql
-./tsconfig.tsbuildinfo
+*.tsbuildinfo
+**/*.tsbuildinfo
 
 # Environment & secrets - NEVER COMMIT
 **/.env
