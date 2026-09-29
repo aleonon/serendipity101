@@ -5,24 +5,38 @@ import { useEffect, useRef } from "react"
 import { useHits, useInstantSearch } from "react-instantsearch"
 
 import useSearchSettled from "@lib/hooks/use-search-settled"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { indexedCurrency, priceAttribute } from "@lib/search-client"
+import { convertToLocale } from "@lib/util/money"
+import ProductCardView from "@modules/design-system/components/product-card-view"
 import { Text } from "@modules/common/components/ui"
-import Thumbnail from "@modules/products/components/thumbnail"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import SearchPagination from "./pagination"
-import HitPrice, { HitPricing } from "./price"
+import type { HitPricing } from "./price"
 
 type ProductHit = Hit<
   {
     title: string | null
     handle: string | null
     thumbnail: string | null
+    category?: string[]
   } & HitPricing
 >
 
 type StoreHitsProps = {
   hitsPerPage: number
   currencyCode: string
+}
+
+const formattedPrice = (hit: HitPricing, currencyCode: string) => {
+  const value = hit[priceAttribute("min_price", currencyCode)]
+  if (typeof value !== "number") {
+    return undefined
+  }
+
+  return convertToLocale({
+    amount: value,
+    currency_code: indexedCurrency(currencyCode),
+  })
 }
 
 const StoreHits = ({ hitsPerPage, currencyCode }: StoreHitsProps) => {
@@ -51,10 +65,10 @@ const StoreHits = ({ hitsPerPage, currencyCode }: StoreHitsProps) => {
   if (status === "error") {
     return (
       <Text
-        className="py-16 text-center text-ui-fg-error"
+        className="py-16 text-center text-serendipity-muted"
         data-testid="products-error"
       >
-        Couldn&apos;t load products
+        No se pudieron cargar los productos
         {error?.message ? `: ${error.message}` : "."}
       </Text>
     )
@@ -66,36 +80,27 @@ const StoreHits = ({ hitsPerPage, currencyCode }: StoreHitsProps) => {
         <SkeletonProductGrid numberOfProducts={hitsPerPage} />
       ) : !items.length ? (
         <Text
-          className="py-16 text-center text-ui-fg-subtle"
+          className="py-16 text-center text-serendipity-muted"
           data-testid="no-products"
         >
-          No products matched these filters.
+          No hay productos con estos filtros.
         </Text>
       ) : (
         <ul
-          className="grid grid-cols-2 w-full small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8"
+          className="grid w-full grid-cols-2 gap-x-6 gap-y-8 small:grid-cols-3 medium:grid-cols-4"
           data-testid="products-list"
         >
           {items.map((hit) =>
             hit.handle ? (
               <li key={hit.objectID}>
-                <LocalizedClientLink
+                <ProductCardView
                   href={`/products/${hit.handle}`}
-                  className="group"
-                >
-                  <div data-testid="product-wrapper">
-                    <Thumbnail thumbnail={hit.thumbnail} size="full" />
-                    <div className="flex txt-compact-medium mt-4 justify-between">
-                      <Text
-                        className="text-ui-fg-subtle"
-                        data-testid="product-title"
-                      >
-                        {hit.title}
-                      </Text>
-                      <HitPrice hit={hit} currencyCode={currencyCode} />
-                    </div>
-                  </div>
-                </LocalizedClientLink>
+                  image={hit.thumbnail ?? undefined}
+                  imageAlt={`Caja de ${hit.title ?? hit.handle}`}
+                  title={hit.title ?? hit.handle}
+                  subtitle={hit.category?.[0]}
+                  price={formattedPrice(hit, currencyCode)}
+                />
               </li>
             ) : null
           )}

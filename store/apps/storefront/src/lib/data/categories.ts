@@ -26,6 +26,15 @@ export const listCategories = async (query?: Record<string, unknown>) => {
     .then(({ product_categories }) => product_categories)
 }
 
+export const getCategoryIdByHandle = async (handle: string) => {
+  const categories = await listCategories({
+    fields: "id,handle",
+    limit: 100,
+  })
+
+  return categories?.find((category) => category.handle === handle)?.id
+}
+
 export const getCategoryByHandle = async (categoryHandle: string[]) => {
   const handle = `${categoryHandle.join("/")}`
 

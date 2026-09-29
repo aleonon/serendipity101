@@ -9,8 +9,9 @@ export type Locale = {
 }
 
 /**
- * Fetches available locales from the backend.
- * Returns null if the endpoint returns 404 (locales not configured).
+ * Optional Medusa locales endpoint. Serendipity is Spanish-only, so the
+ * storefront no longer calls this from the nav. Kept for a future i18n
+ * rollout — do not add a fake /store/locales page to hide a 404.
  */
 export const listLocales = async (): Promise<Locale[] | null> => {
   const next = {

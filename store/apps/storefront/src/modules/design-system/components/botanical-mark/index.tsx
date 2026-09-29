@@ -5,8 +5,8 @@ type BotanicalMarkProps = {
 }
 
 /**
- * Purely decorative sprig used to break the grid. It carries no information, so
- * it is hidden from assistive technology.
+ * Decorative sprig for editorial composition. It has no animation behavior
+ * and is always hidden from assistive technology.
  */
 const BotanicalMark = ({ className }: BotanicalMarkProps) => {
   return (

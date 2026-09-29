@@ -7,6 +7,7 @@ import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import EditorialHeading from "@modules/design-system/components/editorial-heading"
 import { HttpTypes } from "@medusajs/types"
 import { OptionValueIds } from "@lib/util/product-option-filters"
 
@@ -50,12 +51,12 @@ export default function CategoryTemplate({
         hideOptionsPicker
       />
       <div className="w-full">
-        <div className="flex flex-row mb-8 text-2xl-semi gap-4">
+        <div className="mb-8 flex flex-row items-baseline gap-4">
           {parents &&
             parents.map((parent) => (
-              <span key={parent.id} className="text-ui-fg-subtle">
+              <span key={parent.id} className="text-serendipity-muted">
                 <LocalizedClientLink
-                  className="mr-4 hover:text-black"
+                  className="mr-4 hover:text-serendipity-primary"
                   href={`/categories/${parent.handle}`}
                   data-testid="sort-by-link"
                 >
@@ -64,10 +65,16 @@ export default function CategoryTemplate({
                 /
               </span>
             ))}
-          <h1 data-testid="category-page-title">{category.name}</h1>
+          <EditorialHeading
+            as="h1"
+            size="subsection"
+            data-testid="category-page-title"
+          >
+            {category.name}
+          </EditorialHeading>
         </div>
         {category.description && (
-          <div className="mb-8 text-base-regular">
+          <div className="mb-8 text-base-regular text-serendipity-muted">
             <p>{category.description}</p>
           </div>
         )}

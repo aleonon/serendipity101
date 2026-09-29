@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 
-import BlendCta from "@modules/home/sections/blend-cta"
+import BlendCTA from "@modules/home/sections/blend-cta"
 import BotanicalIntro from "@modules/home/sections/botanical-intro"
 import FeaturedProducts from "@modules/home/sections/featured-products"
 import HeroSection from "@modules/home/sections/hero-section"
-import PickupStrip from "@modules/home/sections/pickup-strip"
+import PickupSection from "@modules/home/sections/pickup-section"
 
 export const metadata: Metadata = {
   title: "Serendipity | Casa de té de especialidad",
@@ -22,8 +22,8 @@ export default async function Home(props: {
       <HeroSection />
       <BotanicalIntro />
       <FeaturedProducts countryCode={countryCode} />
-      <BlendCta />
-      <PickupStrip />
+      <BlendCTA />
+      <PickupSection />
     </>
   )
 }

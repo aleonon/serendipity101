@@ -1,3 +1,8 @@
+import EditorialHeading from "@modules/design-system/components/editorial-heading"
+import Eyebrow from "@modules/design-system/components/eyebrow"
+import SceneRoot from "@modules/design-system/components/scene-root"
+import SectionContainer from "@modules/design-system/components/section-container"
+
 const INGREDIENTS = [
   {
     index: "01",
@@ -22,21 +27,20 @@ const INGREDIENTS = [
 
 const BotanicalIntro = () => {
   return (
-    <section
+    <SceneRoot
+      scene="botanical-intro"
       aria-labelledby="botanical-intro-title"
       className="border-b border-serendipity-border"
     >
-      <div className="content-container grid gap-12 py-20 small:grid-cols-12 small:gap-x-16 small:py-32">
+      <SectionContainer className="grid gap-12 small:grid-cols-12 small:gap-x-16">
         <div className="small:col-span-4">
-          <p className="text-xsmall-regular uppercase tracking-[0.4em] text-serendipity-accent">
-            Botánica
-          </p>
-          <h2
+          <Eyebrow>Botánica</Eyebrow>
+          <EditorialHeading
             id="botanical-intro-title"
-            className="mt-6 font-display text-3xl leading-tight text-serendipity-primary small:text-[2.75rem]"
+            className="mt-6"
           >
             Tres familias, infinitas combinaciones.
-          </h2>
+          </EditorialHeading>
         </div>
 
         <ul className="small:col-span-7 small:col-start-6 flex flex-col gap-10 small:gap-0">
@@ -52,9 +56,9 @@ const BotanicalIntro = () => {
                 >
                   {ingredient.index}
                 </span>
-                <h3 className="font-display text-2xl text-serendipity-primary small:text-3xl">
+                <EditorialHeading as="h3" size="subsection">
                   {ingredient.title}
-                </h3>
+                </EditorialHeading>
               </div>
               <p className="text-base-regular mt-3 max-w-md pl-12 leading-7 text-serendipity-muted">
                 {ingredient.description}
@@ -62,8 +66,8 @@ const BotanicalIntro = () => {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </SectionContainer>
+    </SceneRoot>
   )
 }
 

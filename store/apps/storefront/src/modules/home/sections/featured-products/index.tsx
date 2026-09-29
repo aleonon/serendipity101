@@ -1,6 +1,14 @@
+import { getCategoryIdByHandle } from "@lib/data/categories"
 import { listProducts } from "@lib/data/products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { CATALOG_PATH } from "@modules/layout/navigation"
+import EditorialHeading from "@modules/design-system/components/editorial-heading"
+import Eyebrow from "@modules/design-system/components/eyebrow"
+import SceneRoot from "@modules/design-system/components/scene-root"
+import SectionContainer from "@modules/design-system/components/section-container"
+import {
+  CATALOG_PATH,
+  INFUSIONES_CATEGORY_HANDLE,
+} from "@modules/layout/navigation"
 import ProductCard from "@modules/products/components/product-card"
 
 const FEATURED_LIMIT = 4
@@ -14,11 +22,19 @@ type FeaturedProductsProps = {
  * shows the same Medusa data (region, prices, availability) as every listing.
  */
 const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
+  const infusionsCategoryId = await getCategoryIdByHandle(
+    INFUSIONES_CATEGORY_HANDLE
+  )
+
   const {
     response: { products },
   } = await listProducts({
     countryCode,
-    queryParams: { limit: FEATURED_LIMIT, order: "title" },
+    queryParams: {
+      limit: FEATURED_LIMIT,
+      order: "title",
+      ...(infusionsCategoryId ? { category_id: [infusionsCategoryId] } : {}),
+    },
   })
 
   if (!products.length) {
@@ -26,27 +42,26 @@ const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
   }
 
   return (
-    <section
+    <SceneRoot
+      scene="featured-products"
       aria-labelledby="featured-products-title"
       className="border-b border-serendipity-border"
     >
-      <div className="content-container py-20 small:py-32">
+      <SectionContainer>
         <div className="flex flex-col gap-6 xsmall:flex-row xsmall:items-end xsmall:justify-between">
           <div>
-            <p className="text-xsmall-regular uppercase tracking-[0.4em] text-serendipity-accent">
-              Selección
-            </p>
-            <h2
+            <Eyebrow>Selección</Eyebrow>
+            <EditorialHeading
               id="featured-products-title"
-              className="mt-6 font-display text-3xl leading-tight text-serendipity-primary small:text-[2.75rem]"
+              className="mt-6"
             >
               Para empezar por algún lugar.
-            </h2>
+            </EditorialHeading>
           </div>
 
           <LocalizedClientLink
             href={CATALOG_PATH}
-            className="text-base-regular border-b border-serendipity-primary/40 pb-1 text-serendipity-primary transition-colors duration-300 hover:border-serendipity-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-serendipity-primary focus-visible:ring-offset-2 focus-visible:ring-offset-serendipity-bg"
+            className="serendipity-text-link text-base-regular"
             data-testid="featured-products-all-link"
           >
             Ver todo el catálogo
@@ -60,8 +75,8 @@ const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
+      </SectionContainer>
+    </SceneRoot>
   )
 }
 

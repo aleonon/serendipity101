@@ -1,7 +1,7 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
 import { Fraunces, Inter } from "next/font/google"
-import "styles/globals.css"
+import "../styles/globals.css"
 
 const displayFont = Fraunces({
   subsets: ["latin"],

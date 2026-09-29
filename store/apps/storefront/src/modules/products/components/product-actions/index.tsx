@@ -36,17 +36,14 @@ export default function ProductActions({
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const [options, setOptions] = useState<Record<string, string | undefined>>({})
+  const [options, setOptions] = useState<Record<string, string | undefined>>(
+    () =>
+      product.variants?.length === 1
+        ? optionsAsKeymap(product.variants[0].options) ?? {}
+        : {}
+  )
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
-
-  // If there is only 1 variant, preselect the options
-  useEffect(() => {
-    if (product.variants?.length === 1) {
-      const variantOptions = optionsAsKeymap(product.variants[0].options)
-      setOptions(variantOptions ?? {})
-    }
-  }, [product.variants])
 
   const selectedVariant = useMemo(() => {
     if (!product.variants || product.variants.length === 0) {
@@ -76,6 +73,10 @@ export default function ProductActions({
   }, [product.variants, options])
 
   useEffect(() => {
+    if ((product.variants?.length ?? 0) <= 1) {
+      return
+    }
+
     const params = new URLSearchParams(searchParams.toString())
     const value = isValidVariant ? selectedVariant?.id : null
 
@@ -89,10 +90,12 @@ export default function ProductActions({
       params.delete("v_id")
     }
 
-    router.replace(pathname + "?" + params.toString())
+    const query = params.toString()
+    router.replace(pathname + (query ? `?${query}` : ""), { scroll: false })
   }, [
     isValidVariant,
     pathname,
+    product.variants?.length,
     router,
     searchParams,
     selectedVariant,
@@ -132,13 +135,16 @@ export default function ProductActions({
 
     setIsAdding(true)
 
-    await addToCart({
-      variantId: selectedVariant.id,
-      quantity: 1,
-      countryCode,
-    })
-
-    setIsAdding(false)
+    try {
+      await addToCart({
+        variantId: selectedVariant.id,
+        quantity: 1,
+        countryCode,
+      })
+      router.refresh()
+    } finally {
+      setIsAdding(false)
+    }
   }
 
   return (
@@ -183,10 +189,10 @@ export default function ProductActions({
           data-testid="add-product-button"
         >
           {!selectedVariant
-            ? "Select variant"
+            ? "Selecciona una presentación"
             : !inStock || !isValidVariant
-            ? "Out of stock"
-            : "Add to cart"}
+            ? "Agotado"
+            : "Añadir al carrito"}
         </Button>
         <MobileActions
           product={product}

@@ -24,11 +24,16 @@ module.exports = {
           bg: "rgb(var(--serendipity-bg) / <alpha-value>)",
           surface: "rgb(var(--serendipity-surface) / <alpha-value>)",
           primary: "rgb(var(--serendipity-primary) / <alpha-value>)",
+          "primary-strong":
+            "rgb(var(--serendipity-primary-strong) / <alpha-value>)",
           sage: "rgb(var(--serendipity-sage) / <alpha-value>)",
+          "sage-soft": "rgb(var(--serendipity-sage-soft) / <alpha-value>)",
           accent: "rgb(var(--serendipity-accent) / <alpha-value>)",
           ink: "rgb(var(--serendipity-ink) / <alpha-value>)",
           muted: "rgb(var(--serendipity-muted) / <alpha-value>)",
           border: "rgb(var(--serendipity-border) / <alpha-value>)",
+          "border-strong":
+            "rgb(var(--serendipity-border-strong) / <alpha-value>)",
         },
         grey: {
           0: "#FFFFFF",
@@ -54,6 +59,19 @@ module.exports = {
       },
       maxWidth: {
         "8xl": "100rem",
+      },
+      spacing: {
+        gutter: "var(--serendipity-gutter)",
+        section: "var(--serendipity-section-space)",
+        "section-compact": "var(--serendipity-section-space-compact)",
+      },
+      transitionDuration: {
+        fast: "var(--serendipity-duration-fast)",
+        base: "var(--serendipity-duration-base)",
+        slow: "var(--serendipity-duration-slow)",
+      },
+      transitionTimingFunction: {
+        serendipity: "var(--serendipity-ease)",
       },
       screens: {
         "2xsmall": "320px",

@@ -1,4 +1,6 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import Eyebrow from "@modules/design-system/components/eyebrow"
+import SectionContainer from "@modules/design-system/components/section-container"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 import { listNavigationLinks } from "@modules/layout/navigation"
 
@@ -12,8 +14,8 @@ export default async function Footer() {
 
   return (
     <footer className="w-full border-t border-serendipity-border">
-      <div className="content-container flex w-full flex-col">
-        <div className="flex flex-col gap-y-12 py-20 xsmall:flex-row xsmall:items-start xsmall:justify-between small:py-28">
+      <SectionContainer spacing="compact" className="flex w-full flex-col">
+        <div className="flex flex-col gap-y-12 pb-12 xsmall:flex-row xsmall:items-start xsmall:justify-between">
           <div>
             <LocalizedClientLink
               href="/"
@@ -28,15 +30,13 @@ export default async function Footer() {
 
           <div className="text-small-regular grid grid-cols-2 gap-10 md:gap-x-16">
             <div className="flex flex-col gap-y-3">
-              <span className="text-xsmall-regular uppercase tracking-[0.2em] text-serendipity-accent">
-                Tienda
-              </span>
+              <Eyebrow>Tienda</Eyebrow>
               <ul className="grid grid-cols-1 gap-2">
                 {navigationLinks.map((link) => (
                   <li key={link.href}>
                     <LocalizedClientLink
                       href={link.href}
-                      className="text-serendipity-muted transition-colors duration-300 hover:text-serendipity-primary"
+                      className="text-serendipity-muted transition-colors duration-base ease-serendipity hover:text-serendipity-primary"
                     >
                       {link.label}
                     </LocalizedClientLink>
@@ -46,15 +46,13 @@ export default async function Footer() {
             </div>
 
             <div className="flex flex-col gap-y-3">
-              <span className="text-xsmall-regular uppercase tracking-[0.2em] text-serendipity-accent">
-                Tu pedido
-              </span>
+              <Eyebrow>Tu pedido</Eyebrow>
               <ul className="grid grid-cols-1 gap-2">
                 {ACCOUNT_LINKS.map((link) => (
                   <li key={link.href}>
                     <LocalizedClientLink
                       href={link.href}
-                      className="text-serendipity-muted transition-colors duration-300 hover:text-serendipity-primary"
+                      className="text-serendipity-muted transition-colors duration-base ease-serendipity hover:text-serendipity-primary"
                     >
                       {link.label}
                     </LocalizedClientLink>
@@ -71,7 +69,7 @@ export default async function Footer() {
           </p>
           <MedusaCTA />
         </div>
-      </div>
+      </SectionContainer>
     </footer>
   )
 }

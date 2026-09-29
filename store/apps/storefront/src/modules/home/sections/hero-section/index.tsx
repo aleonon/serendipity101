@@ -1,5 +1,9 @@
-import BotanicalMark from "@modules/common/components/botanical-mark"
 import CtaLink from "@modules/common/components/cta-link"
+import BotanicalMark from "@modules/design-system/components/botanical-mark"
+import EditorialHeading from "@modules/design-system/components/editorial-heading"
+import Eyebrow from "@modules/design-system/components/eyebrow"
+import SceneRoot from "@modules/design-system/components/scene-root"
+import SectionContainer from "@modules/design-system/components/section-container"
 import { BLEND_BUILDER_PATH, CATALOG_PATH } from "@modules/layout/navigation"
 import Image from "next/image"
 
@@ -7,7 +11,8 @@ const HERO_IMAGE = "/serendipity/Catálogo/7.png"
 
 const HeroSection = () => {
   return (
-    <section
+    <SceneRoot
+      scene="hero"
       aria-labelledby="hero-title"
       className="relative overflow-hidden border-b border-serendipity-border"
     >
@@ -15,20 +20,20 @@ const HeroSection = () => {
         className="pointer-events-none absolute -left-10 top-10 h-64 w-32 opacity-30 small:h-96 small:w-48"
       />
 
-      <div className="content-container relative grid items-center gap-12 py-16 small:grid-cols-[55fr_45fr] small:gap-20 small:py-28">
+      <SectionContainer className="relative grid items-center gap-12 small:grid-cols-[55fr_45fr] small:gap-20">
         <div className="max-w-2xl">
-          <p className="text-xsmall-regular uppercase tracking-[0.4em] text-serendipity-accent">
-            Serendipity
-          </p>
+          <Eyebrow>Serendipity</Eyebrow>
 
-          <h1
+          <EditorialHeading
+            as="h1"
+            size="hero"
             id="hero-title"
-            className="mt-8 font-display text-[2.75rem] leading-[1.05] text-serendipity-primary xsmall:text-[3.25rem] small:text-[4.25rem]"
+            className="mt-8"
           >
             Una pausa encontrada por casualidad.
-          </h1>
+          </EditorialHeading>
 
-          <p className="text-large-regular mt-8 max-w-xl leading-8 text-serendipity-muted">
+          <p className="type-body-large mt-8 max-w-xl text-serendipity-muted">
             Tés de especialidad, botánicos e infusiones creadas para encontrar
             algo distinto en cada taza.
           </p>
@@ -63,8 +68,8 @@ const HeroSection = () => {
             />
           </div>
         </div>
-      </div>
-    </section>
+      </SectionContainer>
+    </SceneRoot>
   )
 }
 

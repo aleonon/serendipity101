@@ -9,6 +9,8 @@ export const BLEND_BUILDER_PATH = "/crear-mezcla"
 
 export const CATALOG_PATH = "/store"
 
+export const INFUSIONES_CATEGORY_HANDLE = "infusiones"
+
 export type NavLink = {
   label: string
   href: string
@@ -19,7 +21,11 @@ export type NavLink = {
  * Only the ones that actually exist in Medusa are rendered, so the navigation
  * never links to a category route that would 404.
  */
-const CURATED_CATEGORY_HANDLES = ["tes", "infusiones", "botanicos"]
+const CURATED_CATEGORY_HANDLES = [
+  "tes",
+  INFUSIONES_CATEGORY_HANDLE,
+  "botanicos",
+]
 
 export const listNavigationLinks = async (): Promise<NavLink[]> => {
   const categories = await listCategories({ fields: "id,name,handle" })
