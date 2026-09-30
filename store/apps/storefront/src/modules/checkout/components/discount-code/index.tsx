@@ -4,6 +4,7 @@ import { Badge, Heading, Input, Label, Text } from "@modules/common/components/u
 import React from "react"
 
 import { applyPromotions } from "@lib/data/cart"
+import { PICKUP_PROMOTION_CODE } from "@lib/pickup"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import Trash from "@modules/common/icons/trash"
@@ -19,6 +20,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const [errorMessage, setErrorMessage] = React.useState("")
 
   const { promotions = [] } = cart
+  const visiblePromotions = promotions.filter(
+    (promotion) => promotion.code !== PICKUP_PROMOTION_CODE
+  )
   const removePromotionCode = async (code: string) => {
     const validPromotions = promotions.filter(
       (promotion) => promotion.code !== code
@@ -99,14 +103,14 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           )}
         </form>
 
-        {promotions.length > 0 && (
+        {visiblePromotions.length > 0 && (
           <div className="w-full flex items-center">
             <div className="flex flex-col w-full">
               <Heading className="txt-medium mb-2">
                 Promotion(s) applied:
               </Heading>
 
-              {promotions.map((promotion) => {
+              {visiblePromotions.map((promotion) => {
                 return (
                   <div
                     key={promotion.id}

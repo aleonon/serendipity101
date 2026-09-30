@@ -21,6 +21,7 @@
     "audit:serendipity": "medusa exec ./src/scripts/audit-serendipity-commerce.ts",
     "cleanup:starter-catalog": "medusa exec ./src/scripts/cleanup-starter-catalog.ts",
     "setup:ecuador-shipping": "medusa exec ./src/scripts/setup-ecuador-shipping.ts",
+    "setup:pickup": "medusa exec ./src/scripts/setup-serendipity-pickup.ts",
     "seed:serendipity": "medusa exec ./src/scripts/seed-serendipity-products.ts",
     "seed:blend": "medusa exec ./src/scripts/seed-blend-product.ts",
     "test:integration:http": "TEST_TYPE=integration:http NODE_OPTIONS=--experimental-vm-modules jest --silent=false --runInBand --forceExit",

@@ -4,6 +4,7 @@ import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
+import { pickupDiscountFromCart } from "@lib/pickup"
 import { HttpTypes } from "@medusajs/types"
 
 const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
@@ -18,7 +19,7 @@ const CheckoutSummary = ({ cart }: { cart: HttpTypes.StoreCart }) => {
           En tu carrito
         </Heading>
         <Divider className="my-6" />
-        <CartTotals totals={cart} />
+        <CartTotals totals={cart} pickupDiscount={pickupDiscountFromCart(cart)} />
         <ItemsPreviewTemplate cart={cart} />
         <div className="my-6">
           <DiscountCode cart={cart} />

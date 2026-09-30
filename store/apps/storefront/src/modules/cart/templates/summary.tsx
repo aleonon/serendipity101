@@ -6,6 +6,7 @@ import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { pickupDiscountFromCart } from "@lib/pickup"
 import { HttpTypes } from "@medusajs/types"
 
 type SummaryProps = {
@@ -32,7 +33,7 @@ const Summary = ({ cart }: SummaryProps) => {
       </Heading>
       <DiscountCode cart={cart} />
       <Divider />
-      <CartTotals totals={cart} />
+      <CartTotals totals={cart} pickupDiscount={pickupDiscountFromCart(cart)} />
       <LocalizedClientLink
         href={"/checkout?step=" + step}
         data-testid="checkout-button"

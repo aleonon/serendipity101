@@ -13,9 +13,10 @@ type CartTotalsProps = {
     shipping_subtotal?: number | null
     discount_subtotal?: number | null
   }
+  pickupDiscount?: number | null
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
+const CartTotals: React.FC<CartTotalsProps> = ({ totals, pickupDiscount }) => {
   const {
     currency_code,
     total,
@@ -24,6 +25,11 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
     shipping_subtotal,
     discount_subtotal,
   } = totals
+  const pickupAmount =
+    typeof pickupDiscount === "number" && pickupDiscount > 0
+      ? pickupDiscount
+      : 0
+  const otherDiscount = Math.max((discount_subtotal ?? 0) - pickupAmount, 0)
 
   return (
     <div>
@@ -40,17 +46,33 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
             {convertToLocale({ amount: shipping_subtotal ?? 0, currency_code })}
           </span>
         </div>
-        {!!discount_subtotal && (
+        {pickupAmount > 0 && (
+          <div className="flex items-center justify-between">
+            <span>Retiro en local</span>
+            <span
+              className="text-ui-fg-interactive"
+              data-testid="cart-pickup-discount"
+              data-value={pickupAmount}
+            >
+              -{" "}
+              {convertToLocale({
+                amount: pickupAmount,
+                currency_code,
+              })}
+            </span>
+          </div>
+        )}
+        {otherDiscount > 0 && (
           <div className="flex items-center justify-between">
             <span>Descuento</span>
             <span
               className="text-ui-fg-interactive"
               data-testid="cart-discount"
-              data-value={discount_subtotal || 0}
+              data-value={otherDiscount}
             >
               -{" "}
               {convertToLocale({
-                amount: discount_subtotal ?? 0,
+                amount: otherDiscount,
                 currency_code,
               })}
             </span>
