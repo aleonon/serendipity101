@@ -15,15 +15,17 @@ const PickupSection = () => {
       className="border-b border-serendipity-border"
     >
       <SectionContainer spacing="compact">
-        <BotanicalRule className="mb-10 max-w-32" />
-        <div className="flex flex-col gap-5 small:flex-row small:items-baseline small:justify-between">
-          <EditorialHeading
-            as="h2"
-            size="subsection"
-            id="pickup-section-title"
-          >
-            Retira en Serendipity
-          </EditorialHeading>
+        <div className="flex flex-col gap-6 border-l-2 border-serendipity-accent pl-6 small:flex-row small:items-end small:justify-between">
+          <div>
+            <BotanicalRule className="mb-6 max-w-24" />
+            <EditorialHeading
+              as="h2"
+              size="subsection"
+              id="pickup-section-title"
+            >
+              Retira en Serendipity
+            </EditorialHeading>
+          </div>
           <p className="type-body-large max-w-xl text-serendipity-muted">
             Recibe 5% de descuento al retirar tu pedido en el local.
           </p>

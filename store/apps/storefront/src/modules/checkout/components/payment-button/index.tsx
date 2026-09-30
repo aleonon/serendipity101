@@ -2,6 +2,11 @@
 
 import { isManual, isStripeLike } from "@lib/constants"
 import { placeOrder } from "@lib/data/cart"
+import {
+  classifyPaymentFailure,
+  paymentStatusMessage,
+  type PaymentUiStatus,
+} from "@lib/payment/status"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@modules/common/components/ui"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
@@ -55,12 +60,15 @@ const StripePaymentButton = ({
   "data-testid"?: string
 }) => {
   const [submitting, setSubmitting] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [status, setStatus] = useState<PaymentUiStatus>("idle")
 
   const onPaymentCompleted = async () => {
     await placeOrder()
-      .catch((err) => {
-        setErrorMessage(err.message)
+      .then(() => {
+        setStatus("success")
+      })
+      .catch((err: unknown) => {
+        setStatus(classifyPaymentFailure(err))
       })
       .finally(() => {
         setSubmitting(false)
@@ -78,6 +86,7 @@ const StripePaymentButton = ({
       return
     }
 
+    setStatus("processing")
     setSubmitting(true)
 
     await stripe
@@ -120,7 +129,7 @@ const StripePaymentButton = ({
             return
           }
 
-          setErrorMessage(error.message || null)
+          setStatus(classifyPaymentFailure(error.message || error))
           setSubmitting(false)
           return
         }
@@ -133,6 +142,16 @@ const StripePaymentButton = ({
           return
         }
 
+        if (
+          paymentIntent.status === "processing" ||
+          paymentIntent.status === "requires_action"
+        ) {
+          setStatus("pending")
+          setSubmitting(false)
+          return
+        }
+
+        setStatus("rejected")
         setSubmitting(false)
       })
   }
@@ -146,24 +165,24 @@ const StripePaymentButton = ({
         isLoading={submitting}
         data-testid={dataTestId}
       >
-        Confirmar pedido
+        {status === "processing" ? "Procesando pago" : status === "connection" || status === "rejected" ? "Reintentar" : "Confirmar pedido"}
       </Button>
-      <ErrorMessage
-        error={errorMessage}
-        data-testid="stripe-payment-error-message"
-      />
+      <PaymentStatus status={status} testId="stripe-payment-error-message" />
     </>
   )
 }
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [submitting, setSubmitting] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [status, setStatus] = useState<PaymentUiStatus>("idle")
 
   const onPaymentCompleted = async () => {
     await placeOrder()
-      .catch((err) => {
-        setErrorMessage(err.message)
+      .then(() => {
+        setStatus("success")
+      })
+      .catch((err: unknown) => {
+        setStatus(classifyPaymentFailure(err))
       })
       .finally(() => {
         setSubmitting(false)
@@ -171,8 +190,8 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   }
 
   const handlePayment = () => {
+    setStatus("processing")
     setSubmitting(true)
-
     onPaymentCompleted()
   }
 
@@ -185,13 +204,37 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
         size="large"
         data-testid="submit-order-button"
       >
-        Confirmar pedido
+        {status === "processing"
+          ? "Procesando pago"
+          : status === "connection" || status === "rejected"
+            ? "Reintentar"
+            : "Confirmar pedido"}
       </Button>
-      <ErrorMessage
-        error={errorMessage}
-        data-testid="manual-payment-error-message"
-      />
+      <PaymentStatus status={status} testId="manual-payment-error-message" />
     </>
+  )
+}
+
+function PaymentStatus({
+  status,
+  testId,
+}: {
+  status: PaymentUiStatus
+  testId: string
+}) {
+  if (
+    status === "idle" ||
+    status === "processing" ||
+    status === "success"
+  ) {
+    return null
+  }
+
+  return (
+    <ErrorMessage
+      error={paymentStatusMessage(status)}
+      data-testid={testId}
+    />
   )
 }
 

@@ -13,17 +13,18 @@ export default async function Footer() {
   const navigationLinks = await listNavigationLinks()
 
   return (
-    <footer className="w-full border-t border-serendipity-border">
+    <footer className="w-full border-t border-serendipity-border bg-serendipity-cream">
       <SectionContainer spacing="compact" className="flex w-full flex-col">
         <div className="flex flex-col gap-y-12 pb-12 xsmall:flex-row xsmall:items-start xsmall:justify-between">
           <div>
             <LocalizedClientLink
               href="/"
-              className="font-display text-2xl text-serendipity-primary"
+              className="font-display text-4xl tracking-tight text-serendipity-primary"
             >
               Serendipity
             </LocalizedClientLink>
-            <p className="text-small-regular mt-4 max-w-xs leading-6 text-serendipity-muted">
+            <span className="mt-5 block h-px w-14 bg-serendipity-accent" />
+            <p className="text-base-regular mt-5 max-w-xs leading-7 text-serendipity-muted">
               Casa de té de especialidad.
             </p>
           </div>

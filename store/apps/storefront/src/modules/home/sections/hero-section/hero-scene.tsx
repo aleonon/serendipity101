@@ -94,6 +94,10 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
       className="relative overflow-hidden border-b border-serendipity-border"
     >
       <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] bg-serendipity-sage-soft small:block"
+      />
+      <div
         ref={backgroundRef}
         className="pointer-events-none absolute -left-10 top-10 h-64 w-32 opacity-30 small:h-96 small:w-48"
       >
@@ -105,7 +109,7 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
           {copy}
         </div>
 
-        <div className="relative z-10 min-w-0 w-full">
+        <div className="relative z-10 min-w-0 w-full bg-serendipity-sage-soft small:bg-transparent">
           <BloomSequence ref={bloomRef} frames={BLOOM_FRAMES} />
           <HeroBotanicalLayer
             ref={leafLeftRef}

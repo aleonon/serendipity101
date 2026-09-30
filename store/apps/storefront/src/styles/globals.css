@@ -8,12 +8,14 @@
      the brand assets in /public/serendipity. */
   :root {
     --serendipity-bg: 246 242 233;
-    --serendipity-surface: 255 255 255;
+    --serendipity-cream: 236 226 210;
+    --serendipity-surface: 255 252 247;
     --serendipity-primary: 44 74 51;
     --serendipity-primary-strong: 31 55 37;
     --serendipity-sage: 140 156 124;
     --serendipity-sage-soft: 226 231 216;
     --serendipity-accent: 158 90 43;
+    --serendipity-rose: 168 106 106;
     --serendipity-ink: 42 39 36;
     --serendipity-muted: 110 106 97;
     --serendipity-border: 226 218 202;
@@ -24,8 +26,8 @@
     --serendipity-section-space: clamp(5rem, 10vw, 9rem);
     --serendipity-section-space-compact: clamp(3.5rem, 6vw, 6rem);
 
-    --serendipity-type-hero: clamp(3rem, 6vw, 5.5rem);
-    --serendipity-type-section: clamp(2.25rem, 4vw, 4rem);
+    --serendipity-type-hero: clamp(3.35rem, 7.2vw, 6.75rem);
+    --serendipity-type-section: clamp(2.4rem, 4.2vw, 4.35rem);
     --serendipity-type-subsection: clamp(1.5rem, 2.4vw, 2.25rem);
     --serendipity-type-body-large: clamp(1rem, 1.35vw, 1.125rem);
 
@@ -127,8 +129,8 @@
     font-family: var(--font-display), Georgia, serif;
     font-size: var(--serendipity-type-hero);
     font-weight: 450;
-    line-height: 0.98;
-    letter-spacing: -0.035em;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
   }
 
   .type-display-section {

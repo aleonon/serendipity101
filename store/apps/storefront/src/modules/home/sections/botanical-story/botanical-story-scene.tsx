@@ -200,7 +200,7 @@ const BotanicalStoryScene = ({ exploreHref }: BotanicalStorySceneProps) => {
       ref={sectionRef}
       scene="botanical-story"
       aria-labelledby="botanical-story-title"
-      className="relative overflow-hidden border-b border-serendipity-border small:motion-safe:h-[calc(100svh-4rem)]"
+      className="relative overflow-hidden border-b border-serendipity-border bg-serendipity-surface small:motion-safe:h-[calc(100svh-4rem)]"
     >
       <h2 id="botanical-story-title" className="sr-only">
         Del origen a la infusión
@@ -216,13 +216,13 @@ const BotanicalStoryScene = ({ exploreHref }: BotanicalStorySceneProps) => {
               key={stage.id}
               aria-current={index === active ? "step" : undefined}
               className={clx(
-                "text-xsmall-regular flex items-baseline gap-2 tabular-nums",
+                "flex items-baseline gap-3 border-l-2 py-1 pl-3 text-xsmall-regular tabular-nums",
                 index === active
-                  ? "text-serendipity-primary"
-                  : "text-serendipity-muted"
+                  ? "border-serendipity-accent text-serendipity-primary"
+                  : "border-serendipity-border text-serendipity-muted"
               )}
             >
-              <span>{stage.index}</span>
+              <span className="font-display text-lg">{stage.index}</span>
               <span>{stage.label}</span>
             </li>
           ))}
@@ -238,7 +238,7 @@ const BotanicalStoryScene = ({ exploreHref }: BotanicalStorySceneProps) => {
               aria-hidden={pinned && index !== active ? true : undefined}
               inert={pinned && index !== active ? true : undefined}
               className={clx(
-                "flex flex-col gap-8 border-t border-serendipity-border py-14 first:border-t-0",
+                "flex flex-col gap-8 border-t border-serendipity-border-strong py-16 first:border-t-0 small:motion-safe:border-t-0",
                 "small:motion-safe:absolute small:motion-safe:inset-0 small:motion-safe:z-10 small:motion-safe:justify-center small:motion-safe:border-0 small:motion-safe:py-0",
                 index > 0 && "small:motion-safe:opacity-0"
               )}
@@ -247,8 +247,11 @@ const BotanicalStoryScene = ({ exploreHref }: BotanicalStorySceneProps) => {
                 <StoryStill stage={stage.id} />
               </div>
               <div className="max-w-xl">
-                <p className="text-xsmall-regular tabular-nums text-serendipity-accent">
-                  {stage.index} {stage.label}
+                <p className="flex items-baseline gap-3 text-serendipity-accent">
+                  <span className="font-display text-4xl leading-none text-serendipity-rose">
+                    {stage.index}
+                  </span>
+                  <span className="type-eyebrow">{stage.label}</span>
                 </p>
                 <EditorialHeading as="h3" className="mt-4">
                   {stage.title}

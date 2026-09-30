@@ -1,6 +1,7 @@
 "use client"
 import { RadioGroup } from "@headlessui/react"
 import { isStripeLike, paymentInfoMap } from "@lib/constants"
+import { customerPaymentMessage } from "@lib/payment/status"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -100,7 +101,7 @@ const Payment = ({
         )
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
+      setError(customerPaymentMessage(err))
     } finally {
       setIsLoading(false)
     }

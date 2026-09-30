@@ -2,6 +2,9 @@ import { loadEnv, defineConfig } from '@medusajs/framework/utils'
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
+// Payment providers are not registered here. Development uses Medusa's
+// built-in manual provider. A production provider is added only after one
+// is chosen, and its secrets stay in environment variables.
 module.exports = defineConfig({
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,

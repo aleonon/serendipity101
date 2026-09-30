@@ -10,6 +10,7 @@ type ProductCardViewProps = {
   subtitle?: string | null
   price?: string | null
   priority?: boolean
+  featured?: boolean
 }
 
 /**
@@ -24,15 +25,20 @@ const ProductCardView = ({
   subtitle,
   price,
   priority = false,
+  featured = false,
 }: ProductCardViewProps) => {
   return (
     <LocalizedClientLink
       href={href}
-      className="serendipity-focus group block rounded-large"
+      className="serendipity-focus group block h-full"
       data-testid="product-card"
     >
-      <article className="flex h-full flex-col">
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-large border border-serendipity-border bg-serendipity-surface">
+      <article
+        className={`flex h-full flex-col p-3 small:p-4 ${featured ? "bg-serendipity-surface" : "bg-serendipity-cream"}`}
+      >
+        <div
+          className={`relative w-full overflow-hidden bg-serendipity-sage-soft ${featured ? "aspect-[5/4]" : "aspect-[4/5]"}`}
+        >
           {image ? (
             <Image
               src={image}
@@ -64,7 +70,7 @@ const ProductCardView = ({
 
         {price && (
           <p
-            className="text-base-regular mt-3 tabular-nums text-serendipity-ink"
+            className="text-base-regular mt-auto pt-4 tabular-nums text-serendipity-accent"
             data-testid="product-price"
           >
             {price}

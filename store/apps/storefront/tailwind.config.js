@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         serendipity: {
           bg: "rgb(var(--serendipity-bg) / <alpha-value>)",
+          cream: "rgb(var(--serendipity-cream) / <alpha-value>)",
           surface: "rgb(var(--serendipity-surface) / <alpha-value>)",
           primary: "rgb(var(--serendipity-primary) / <alpha-value>)",
           "primary-strong":
@@ -29,6 +30,7 @@ module.exports = {
           sage: "rgb(var(--serendipity-sage) / <alpha-value>)",
           "sage-soft": "rgb(var(--serendipity-sage-soft) / <alpha-value>)",
           accent: "rgb(var(--serendipity-accent) / <alpha-value>)",
+          rose: "rgb(var(--serendipity-rose) / <alpha-value>)",
           ink: "rgb(var(--serendipity-ink) / <alpha-value>)",
           muted: "rgb(var(--serendipity-muted) / <alpha-value>)",
           border: "rgb(var(--serendipity-border) / <alpha-value>)",

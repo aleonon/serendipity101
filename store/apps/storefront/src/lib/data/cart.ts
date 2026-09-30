@@ -13,6 +13,7 @@ import {
   removeCartId,
   setCartId,
 } from "./cookies"
+import { mayCompleteOrder, paymentStatusMessage } from "@lib/payment/status"
 import { getRegion } from "./regions"
 import { getLocale } from "./locale-actions"
 
@@ -24,7 +25,7 @@ import { getLocale } from "./locale-actions"
 export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
   fields ??=
-    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, *items.adjustments, +items.total, *promotions, +discount_subtotal, +shipping_methods.name"
+    "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, *items.adjustments, +items.total, *promotions, +discount_subtotal, +shipping_methods.name, *payment_collection, *payment_collection.payment_sessions"
 
   if (!id) {
     return null
@@ -401,6 +402,23 @@ export async function placeOrder(cartId?: string) {
 
   if (!id) {
     throw new Error("No existing cart found when placing an order")
+  }
+
+  const current = await retrieveCart(
+    id,
+    "id,*payment_collection,*payment_collection.payment_sessions"
+  )
+  const session = current?.payment_collection?.payment_sessions?.[0]
+  if (
+    session &&
+    !mayCompleteOrder({
+      providerId: session.provider_id,
+      sessionStatus: session.status,
+    })
+  ) {
+    throw new Error(
+      paymentStatusMessage(session.status === "pending" ? "pending" : "rejected")
+    )
   }
 
   const headers = {
