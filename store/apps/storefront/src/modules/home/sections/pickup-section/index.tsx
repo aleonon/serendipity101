@@ -1,4 +1,3 @@
-import BotanicalRule from "@modules/design-system/components/botanical-rule"
 import EditorialHeading from "@modules/design-system/components/editorial-heading"
 import SceneRoot from "@modules/design-system/components/scene-root"
 import SectionContainer from "@modules/design-system/components/section-container"
@@ -15,17 +14,14 @@ const PickupSection = () => {
       className="border-b border-serendipity-border"
     >
       <SectionContainer spacing="compact">
-        <div className="flex flex-col gap-6 border-l-2 border-serendipity-accent pl-6 small:flex-row small:items-end small:justify-between">
-          <div>
-            <BotanicalRule className="mb-6 max-w-24" />
-            <EditorialHeading
-              as="h2"
-              size="subsection"
-              id="pickup-section-title"
-            >
-              Retira en Serendipity
-            </EditorialHeading>
-          </div>
+        <div className="flex flex-col gap-5 small:flex-row small:items-end small:justify-between">
+          <EditorialHeading
+            as="h2"
+            size="subsection"
+            id="pickup-section-title"
+          >
+            Retira en Serendipity
+          </EditorialHeading>
           <p className="type-body-large max-w-xl text-serendipity-muted">
             Recibe 5% de descuento al retirar tu pedido en el local.
           </p>

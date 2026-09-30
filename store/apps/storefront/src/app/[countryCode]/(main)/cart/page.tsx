@@ -7,6 +7,7 @@ import { notFound } from "next/navigation"
 export const metadata: Metadata = {
   title: "Carrito | Serendipity",
   description: "Revisa tu pedido de Serendipity.",
+  robots: { index: false, follow: false },
 }
 
 export default async function Cart() {

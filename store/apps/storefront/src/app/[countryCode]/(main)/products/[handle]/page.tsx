@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation"
 import { BLEND_PRODUCT_HANDLE } from "@lib/blend/product"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
+import { allowedCountryCodes } from "@lib/util/storefront-countries"
 import ProductTemplate from "@modules/products/templates"
 import { HttpTypes } from "@medusajs/types"
 
@@ -14,7 +15,9 @@ type Props = {
 export async function generateStaticParams() {
   try {
     const countryCodes = await listRegions().then((regions) =>
-      regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
+      allowedCountryCodes(
+        regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat() ?? []
+      )
     )
 
     if (!countryCodes) {

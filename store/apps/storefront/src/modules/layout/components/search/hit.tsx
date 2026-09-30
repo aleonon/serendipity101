@@ -38,7 +38,7 @@ const SearchHit = ({ hit, onNavigate }: SearchHitProps) => {
               alt=""
               fill
               sizes="56px"
-              className="object-cover object-center"
+              className="object-contain object-center p-1"
               draggable={false}
             />
           ) : (

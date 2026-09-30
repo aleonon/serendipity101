@@ -27,7 +27,7 @@ const SEQUENCE_QUERY =
   "(prefers-reduced-motion: no-preference) and (min-width: 769px)"
 
 const NEARBY_COUNT = 8
-const BACKGROUND_CONCURRENCY = 3
+const EVICT_RADIUS = 16
 const MAX_DEVICE_PIXEL_RATIO = 2
 
 export type BloomSequenceHandle = {
@@ -148,6 +148,12 @@ const BloomSequence = forwardRef<BloomSequenceHandle, BloomSequenceProps>(
               return
             }
 
+            if (Math.abs(index - desiredIndex) > EVICT_RADIUS) {
+              releaseImage(image)
+              resolve(null)
+              return
+            }
+
             images[index] = image
 
             if (index === desiredIndex || !images[desiredIndex]) {
@@ -169,25 +175,26 @@ const BloomSequence = forwardRef<BloomSequenceHandle, BloomSequenceProps>(
         return task
       }
 
-      const loadPool = async (indexes: number[], requestToken: number) => {
-        let cursor = 0
+      const evictFar = (center: number) => {
+        for (let index = 0; index < images.length; index += 1) {
+          const image = images[index]
 
-        const worker = async () => {
-          while (
-            cursor < indexes.length &&
-            !cancelled &&
-            requestToken === token &&
-            playback === "sequence"
-          ) {
-            const index = indexes[cursor]
-            cursor += 1
-            await load(index, requestToken)
+          if (!image || Math.abs(index - center) <= EVICT_RADIUS) {
+            continue
           }
+
+          releaseImage(image)
+          images[index] = null
         }
+      }
 
-        const workers = Math.min(BACKGROUND_CONCURRENCY, indexes.length)
-
-        await Promise.all(Array.from({ length: workers }, () => worker()))
+      const ensureWindow = (center: number, requestToken: number) => {
+        evictFar(center)
+        const start = Math.max(0, center - NEARBY_COUNT)
+        const end = Math.min(frames.length, center + NEARBY_COUNT + 1)
+        void Promise.all(
+          range(start, end).map((index) => load(index, requestToken))
+        )
       }
 
       const loadPlayback = async (mode: Playback, requestToken: number) => {
@@ -212,16 +219,7 @@ const BloomSequence = forwardRef<BloomSequenceHandle, BloomSequenceProps>(
           return
         }
 
-        const nearbyEnd = Math.min(frames.length, NEARBY_COUNT + 1)
-        await Promise.all(
-          range(1, nearbyEnd).map((index) => load(index, requestToken))
-        )
-
-        if (cancelled || requestToken !== token || playback !== "sequence") {
-          return
-        }
-
-        await loadPool(range(nearbyEnd, frames.length), requestToken)
+        ensureWindow(0, requestToken)
       }
 
       const start = () => {
@@ -247,6 +245,7 @@ const BloomSequence = forwardRef<BloomSequenceHandle, BloomSequenceProps>(
 
         desiredIndex = clamp(index, 0, frames.length - 1)
         paint(desiredIndex)
+        ensureWindow(desiredIndex, token)
       }
 
       const observer = new ResizeObserver(resize)

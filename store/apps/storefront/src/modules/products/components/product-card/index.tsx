@@ -6,7 +6,6 @@ type ProductCardProps = {
   product: HttpTypes.StoreProduct
   /** Set on above-the-fold cards only. */
   priority?: boolean
-  featured?: boolean
 }
 
 /**
@@ -14,11 +13,7 @@ type ProductCardProps = {
  * product data, so it can be reused by any listing (home, category, search) and
  * later wrapped by an animation component without changing this file.
  */
-const ProductCard = ({
-  product,
-  priority = false,
-  featured = false,
-}: ProductCardProps) => {
+const ProductCard = ({ product, priority = false }: ProductCardProps) => {
   const { cheapestPrice } = getProductPrice({ product })
   const image = product.thumbnail ?? product.images?.[0]?.url
 
@@ -31,7 +26,6 @@ const ProductCard = ({
       subtitle={product.subtitle}
       price={cheapestPrice?.calculated_price}
       priority={priority}
-      featured={featured}
     />
   )
 }

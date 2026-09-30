@@ -46,48 +46,34 @@ const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
     <SceneRoot
       scene="featured-products"
       aria-labelledby="featured-products-title"
-      className="border-b border-serendipity-border bg-serendipity-bg"
+      className="border-b border-serendipity-border"
     >
       <SectionContainer>
         <Reveal
           fade={false}
           y={12}
-          className="flex flex-col gap-6 border-b border-serendipity-border pb-8 xsmall:flex-row xsmall:items-end xsmall:justify-between"
+          className="flex flex-col gap-6 xsmall:flex-row xsmall:items-end xsmall:justify-between"
         >
-          <div>
+          <div className="max-w-2xl">
             <Eyebrow>Selección</Eyebrow>
-            <EditorialHeading
-              id="featured-products-title"
-              className="mt-6"
-            >
-              Para empezar por algún lugar.
+            <EditorialHeading id="featured-products-title" className="mt-5">
+              Infusiones para una pausa.
             </EditorialHeading>
           </div>
 
           <LocalizedClientLink
             href={CATALOG_PATH}
-            className="serendipity-text-link text-base-regular"
+            className="serendipity-text-link text-small-regular"
             data-testid="featured-products-all-link"
           >
-            Ver todo el catálogo
+            Ver el catálogo
           </LocalizedClientLink>
         </Reveal>
 
-        <ul className="mt-12 grid grid-cols-1 gap-4 xsmall:grid-cols-2 small:grid-cols-12 small:gap-5">
+        <ul className="mt-14 grid grid-cols-1 gap-x-10 gap-y-14 xsmall:grid-cols-2 small:grid-cols-4">
           {products.map((product, index) => (
-            <li
-              key={product.id}
-              className={
-                products.length >= 4
-                  ? `min-w-0 ${["small:col-span-7", "small:col-span-5", "small:col-span-5", "small:col-span-7"][index] ?? "small:col-span-6"}`
-                  : "min-w-0 small:col-span-6"
-              }
-            >
-              <ProductCard
-                product={product}
-                priority={index < 2}
-                featured={index === 0}
-              />
+            <li key={product.id} className="min-w-0">
+              <ProductCard product={product} priority={index < 2} />
             </li>
           ))}
         </ul>

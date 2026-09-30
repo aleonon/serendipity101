@@ -247,8 +247,8 @@ const BotanicalStoryScene = ({ exploreHref }: BotanicalStorySceneProps) => {
                 <StoryStill stage={stage.id} />
               </div>
               <div className="max-w-xl">
-                <p className="flex items-baseline gap-3 text-serendipity-accent">
-                  <span className="font-display text-4xl leading-none text-serendipity-rose">
+                <p className="flex items-baseline gap-3 text-serendipity-muted">
+                  <span className="font-display text-3xl leading-none text-serendipity-primary">
                     {stage.index}
                   </span>
                   <span className="type-eyebrow">{stage.label}</span>

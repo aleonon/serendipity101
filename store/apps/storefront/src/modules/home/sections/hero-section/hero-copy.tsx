@@ -5,17 +5,15 @@ import { BLEND_BUILDER_PATH, CATALOG_PATH } from "@modules/layout/navigation"
 
 const HeroCopy = () => {
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-xl">
       <Eyebrow>Serendipity</Eyebrow>
-      <span className="mt-5 block h-px w-14 bg-serendipity-accent" />
 
-      <EditorialHeading as="h1" size="hero" id="hero-title" className="mt-7">
-        Una pausa encontrada por casualidad.
+      <EditorialHeading as="h1" size="hero" id="hero-title" className="mt-6">
+        Cada taza abre una pausa distinta.
       </EditorialHeading>
 
-      <p className="type-body-large mt-8 max-w-md text-serendipity-ink/80">
-        Tés de especialidad, botánicos e infusiones creadas para encontrar algo
-        distinto en cada taza.
+      <p className="type-body-large mt-8 max-w-md text-serendipity-muted">
+        Flores, hojas y fruta, reunidas para un momento propio.
       </p>
 
       <div className="mt-10 flex flex-col gap-3 xsmall:flex-row">

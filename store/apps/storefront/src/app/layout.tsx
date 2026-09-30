@@ -15,8 +15,29 @@ const bodyFont = Inter({
   variable: "--font-sans",
 })
 
+const SITE_TITLE = "Serendipity | Casa de té de especialidad"
+const SITE_DESCRIPTION =
+  "Tés de especialidad, botánicos e infusiones creadas para encontrar algo distinto en cada taza."
+
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "es_EC",
+    siteName: "Serendipity",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/serendipity/hero/hero_serendipity101.png",
+        width: 1920,
+        height: 1076,
+        alt: "Caja de Flores andinas con flor, hojas y abejas",
+      },
+    ],
+  },
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -26,9 +47,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       data-mode="light"
       className={`${displayFont.variable} ${bodyFont.variable}`}
     >
-      <body>
-        <main className="relative">{props.children}</main>
-      </body>
+      <body>{props.children}</body>
     </html>
   )
 }

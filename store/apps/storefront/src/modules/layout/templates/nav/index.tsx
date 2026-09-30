@@ -18,8 +18,8 @@ export default async function Nav({ cart }: NavProps) {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative mx-auto h-16 border-b border-serendipity-border bg-serendipity-bg/95 backdrop-blur duration-base">
-        <nav className="content-container text-small-regular flex h-full w-full items-center justify-between text-serendipity-primary">
+      <header className="relative mx-auto h-16 border-b border-serendipity-border bg-serendipity-bg/95">
+        <nav className="content-container flex h-full w-full items-center justify-between text-serendipity-primary">
           <div className="flex h-full flex-1 basis-0 items-center">
             <div className="h-full small:hidden">
               <SideMenu
@@ -44,7 +44,7 @@ export default async function Nav({ cart }: NavProps) {
               <li key={link.href}>
                 <LocalizedClientLink
                   href={link.href}
-                  className="text-sm text-serendipity-ink transition-colors duration-base ease-serendipity hover:text-serendipity-primary"
+                  className="text-[13px] tracking-[0.04em] text-serendipity-ink transition-colors duration-base ease-serendipity hover:text-serendipity-primary"
                 >
                   {link.label}
                 </LocalizedClientLink>
@@ -52,11 +52,11 @@ export default async function Nav({ cart }: NavProps) {
             ))}
           </ul>
 
-          <div className="flex h-full flex-1 basis-0 items-center justify-end gap-x-6">
+          <div className="flex h-full flex-1 basis-0 items-center justify-end gap-x-6 text-[13px] tracking-[0.04em]">
             <Search />
-            <div className="hidden h-full items-center gap-x-6 small:flex">
+            <div className="hidden h-full items-center small:flex">
               <LocalizedClientLink
-                className="transition-colors duration-300 hover:text-serendipity-accent"
+                className="transition-colors duration-base ease-serendipity hover:text-serendipity-primary"
                 href="/account"
                 data-testid="nav-account-link"
               >

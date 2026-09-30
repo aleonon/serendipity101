@@ -94,22 +94,18 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
       className="relative overflow-hidden border-b border-serendipity-border"
     >
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] bg-serendipity-sage-soft small:block"
-      />
-      <div
         ref={backgroundRef}
-        className="pointer-events-none absolute -left-10 top-10 h-64 w-32 opacity-30 small:h-96 small:w-48"
+        className="pointer-events-none absolute -left-10 top-10 h-64 w-32 opacity-10 small:h-96 small:w-48"
       >
         <BotanicalMark className="h-full w-full" />
       </div>
 
-      <SectionContainer className="relative grid items-center gap-10 small:grid-cols-[minmax(0,9fr)_minmax(0,11fr)] small:gap-16">
+      <SectionContainer className="relative grid items-center gap-10 small:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] small:gap-20">
         <div ref={copyRef} className="relative z-20 min-w-0">
           {copy}
         </div>
 
-        <div className="relative z-10 min-w-0 w-full bg-serendipity-sage-soft small:bg-transparent">
+        <div className="relative z-10 min-w-0 w-full">
           <BloomSequence ref={bloomRef} frames={BLOOM_FRAMES} />
           <HeroBotanicalLayer
             ref={leafLeftRef}

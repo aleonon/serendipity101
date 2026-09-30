@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { getCollectionByHandle, listCollections } from "@lib/data/collections"
 import { listRegions } from "@lib/data/regions"
+import { allowedCountryCodes } from "@lib/util/storefront-countries"
 import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -30,12 +31,12 @@ export async function generateStaticParams() {
     return []
   }
 
-  const countryCodes = await listRegions().then(
-    (regions: StoreRegion[]) =>
+  const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
+    allowedCountryCodes(
       regions
         ?.map((r) => r.countries?.map((c) => c.iso_2))
-        .flat()
-        .filter(Boolean) as string[]
+        .flat() ?? []
+    )
   )
 
   const collectionHandles = collections.map(

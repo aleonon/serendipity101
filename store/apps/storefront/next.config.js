@@ -9,6 +9,30 @@ checkEnvVariables()
 const S3_HOSTNAME = process.env.MEDUSA_CLOUD_S3_HOSTNAME
 const S3_PATHNAME = process.env.MEDUSA_CLOUD_S3_PATHNAME
 
+function medusaBackendImagePattern() {
+  const value = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+
+  if (!value) {
+    return []
+  }
+
+  try {
+    const url = new URL(value)
+    const pattern = {
+      protocol: url.protocol.replace(":", ""),
+      hostname: url.hostname,
+    }
+
+    if (url.port) {
+      pattern.port = url.port
+    }
+
+    return [pattern]
+  } catch {
+    return []
+  }
+}
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -17,16 +41,17 @@ const nextConfig = {
   outputFileTracingRoot: path.join(__dirname, "../.."),
   logging: {
     fetches: {
-      fullUrl: true,
+      fullUrl: process.env.NODE_ENV === "development",
     },
   },
   images: {
-    unoptimized: true,
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
       },
+      ...medusaBackendImagePattern(),
       {
         protocol: "https",
         hostname: "*.s3.*.amazonaws.com",

@@ -58,7 +58,7 @@ const StoreSearchBox = () => {
         <button
           type="button"
           onClick={clear}
-          aria-label="Clear search"
+          aria-label="Borrar búsqueda"
           className="shrink-0 text-ui-fg-muted hover:text-ui-fg-base"
           data-testid="store-search-clear"
         >

@@ -16,6 +16,9 @@
     --serendipity-sage-soft: 226 231 216;
     --serendipity-accent: 158 90 43;
     --serendipity-rose: 168 106 106;
+    --serendipity-petal: 243 226 222;
+    --serendipity-apricot: 232 196 160;
+    --serendipity-pollen: 184 146 78;
     --serendipity-ink: 42 39 36;
     --serendipity-muted: 110 106 97;
     --serendipity-border: 226 218 202;
@@ -64,6 +67,24 @@
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+
+  .skip-to-content {
+    position: absolute;
+    left: 1rem;
+    top: 0;
+    z-index: 100;
+    transform: translateY(-120%);
+    background: rgb(var(--serendipity-bg) / 1);
+    color: rgb(var(--serendipity-primary) / 1);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .skip-to-content:focus {
+    transform: translateY(0.75rem);
+    outline: 2px solid rgb(var(--serendipity-primary) / 1);
+    outline-offset: 2px;
   }
 
   input:focus ~ label,

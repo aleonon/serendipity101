@@ -10,12 +10,12 @@ type ProductCardViewProps = {
   subtitle?: string | null
   price?: string | null
   priority?: boolean
-  featured?: boolean
 }
 
 /**
  * Pure visual contract for product cards. Medusa DTOs and price calculation
  * stay in the commerce adapter under modules/products.
+ * The image stage uses object-contain so the product keeps its own ratio.
  */
 const ProductCardView = ({
   href,
@@ -25,7 +25,6 @@ const ProductCardView = ({
   subtitle,
   price,
   priority = false,
-  featured = false,
 }: ProductCardViewProps) => {
   return (
     <LocalizedClientLink
@@ -33,21 +32,19 @@ const ProductCardView = ({
       className="serendipity-focus group block h-full"
       data-testid="product-card"
     >
-      <article
-        className={`flex h-full flex-col p-3 small:p-4 ${featured ? "bg-serendipity-surface" : "bg-serendipity-cream"}`}
-      >
-        <div
-          className={`relative w-full overflow-hidden bg-serendipity-sage-soft ${featured ? "aspect-[5/4]" : "aspect-[4/5]"}`}
-        >
+      <article className="flex h-full flex-col">
+        <div className="relative aspect-square w-full bg-serendipity-cream">
           {image ? (
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              priority={priority}
-              sizes="(max-width: 1024px) 50vw, 25vw"
-              className="object-cover object-center motion-safe:transition-transform motion-safe:duration-slow motion-safe:ease-serendipity motion-safe:group-hover:scale-[1.035]"
-            />
+            <div className="absolute inset-[10%]">
+              <Image
+                src={image}
+                alt={imageAlt}
+                fill
+                priority={priority}
+                sizes="(max-width: 512px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-contain object-center"
+              />
+            </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-serendipity-muted">
               <PlaceholderImage size={24} />
@@ -56,26 +53,26 @@ const ProductCardView = ({
         </div>
 
         <h3
-          className="type-display-subsection mt-5 text-serendipity-primary"
+          className="mt-5 font-display text-[1.35rem] leading-snug tracking-tight text-serendipity-primary"
           data-testid="product-title"
         >
           {title}
         </h3>
 
-        {subtitle && (
+        {subtitle ? (
           <p className="text-small-regular mt-1 text-serendipity-muted">
             {subtitle}
           </p>
-        )}
+        ) : null}
 
-        {price && (
+        {price ? (
           <p
-            className="text-base-regular mt-auto pt-4 tabular-nums text-serendipity-accent"
+            className="text-small-regular mt-3 tabular-nums text-serendipity-ink"
             data-testid="product-price"
           >
             {price}
           </p>
-        )}
+        ) : null}
       </article>
     </LocalizedClientLink>
   )

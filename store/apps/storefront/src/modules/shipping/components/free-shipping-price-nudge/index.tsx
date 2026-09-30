@@ -213,6 +213,7 @@ function FreeShippingPopup({
         <Button
           className="rounded-full bg-neutral-900 shadow-none outline-none border-none text-[15px] p-2"
           onClick={() => setIsClosed(true)}
+          aria-label="Cerrar aviso de envío"
         >
           <XMark />
         </Button>
