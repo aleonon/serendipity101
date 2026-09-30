@@ -3,6 +3,7 @@ import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
 import EditorialHeading from "@modules/design-system/components/editorial-heading"
 import Eyebrow from "@modules/design-system/components/eyebrow"
+import { isCustomBlendProduct } from "@lib/blend/product"
 import ProductCard from "@modules/products/components/product-card"
 
 type RelatedProductsProps = {
@@ -38,7 +39,9 @@ export default async function RelatedProducts({
     countryCode,
   }).then(({ response }) =>
     response.products.filter(
-      (responseProduct) => responseProduct.id !== product.id
+      (responseProduct) =>
+        responseProduct.id !== product.id &&
+        !isCustomBlendProduct(responseProduct)
     )
   )
 

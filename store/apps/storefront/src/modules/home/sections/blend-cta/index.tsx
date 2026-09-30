@@ -43,7 +43,7 @@ const BlendCTA = () => {
             Crear mi mezcla
           </CtaLink>
           <p className="text-xsmall-regular mt-4 uppercase tracking-[0.2em] text-serendipity-surface/60">
-            Próximamente
+            Precio según la presentación
           </p>
         </div>
       </SectionContainer>

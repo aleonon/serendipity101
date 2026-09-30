@@ -1,5 +1,6 @@
 import { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
+import { BLEND_PRODUCT_HANDLE } from "@lib/blend/product"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
@@ -72,6 +73,15 @@ function getImagesForVariant(
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   const { handle } = params
+
+  if (handle === BLEND_PRODUCT_HANDLE) {
+    return {
+      title: "Crea tu infusión | Serendipity",
+      description:
+        "Arma una mezcla con las bases y los botánicos del catálogo de Serendipity.",
+    }
+  }
+
   const region = await getRegion(params.countryCode)
 
   if (!region) {
@@ -100,6 +110,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function ProductPage(props: Props) {
   const params = await props.params
+
+  if (params.handle === BLEND_PRODUCT_HANDLE) {
+    redirect(`/${params.countryCode}/crear-mezcla`)
+  }
+
   const region = await getRegion(params.countryCode)
   const searchParams = await props.searchParams
 

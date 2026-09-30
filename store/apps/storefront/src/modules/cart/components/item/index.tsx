@@ -12,6 +12,8 @@ import LineItemUnitPrice from "@modules/common/components/line-item-unit-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Spinner from "@modules/common/icons/spinner"
 import Thumbnail from "@modules/products/components/thumbnail"
+import { presentBlend } from "@lib/blend/present"
+import BlendLineDetails from "@modules/blend/blend-line-details"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -52,6 +54,8 @@ const Item = ({
   }
 
   const maxQuantity = 10
+  const blend = presentBlend(item.metadata)
+  const title = blend?.name ?? item.product_title
 
   const quantitySelect = type === "full" && (
     <div className="flex items-center gap-2">
@@ -82,27 +86,38 @@ const Item = ({
         data-testid="product-row"
       >
         <div className="flex gap-4">
-          <LocalizedClientLink
-            href={`/products/${item.product_handle}`}
-            className="w-20 shrink-0"
-          >
-            <Thumbnail
-              thumbnail={item.thumbnail}
-              images={item.variant?.product?.images}
-              size="square"
-            />
-          </LocalizedClientLink>
+          {blend ? (
+            <div className="w-20 shrink-0">
+              <Thumbnail
+                thumbnail={item.thumbnail}
+                images={item.variant?.product?.images}
+                size="square"
+              />
+            </div>
+          ) : (
+            <LocalizedClientLink
+              href={`/products/${item.product_handle}`}
+              className="w-20 shrink-0"
+            >
+              <Thumbnail
+                thumbnail={item.thumbnail}
+                images={item.variant?.product?.images}
+                size="square"
+              />
+            </LocalizedClientLink>
+          )}
           <div className="min-w-0 flex-1">
             <Text
               className="txt-medium-plus text-ui-fg-base"
               data-testid="product-title"
             >
-              {item.product_title}
+              {title}
             </Text>
             <LineItemOptions
               variant={item.variant}
               data-testid="product-variant"
             />
+            <BlendLineDetails metadata={item.metadata} />
             <div className="mt-2 text-small-regular text-serendipity-muted">
               <span className="mr-2">Precio</span>
               <LineItemUnitPrice
@@ -139,19 +154,34 @@ const Item = ({
   return (
     <Table.Row className="w-full" data-testid="product-row">
       <Table.Cell className="!pl-0 p-4 w-24">
-        <LocalizedClientLink
-          href={`/products/${item.product_handle}`}
-          className={clx("flex", {
-            "w-16": type === "preview",
-            "small:w-24 w-12": type === "full",
-          })}
-        >
-          <Thumbnail
-            thumbnail={item.thumbnail}
-            images={item.variant?.product?.images}
-            size="square"
-          />
-        </LocalizedClientLink>
+        {blend ? (
+          <div
+            className={clx("flex", {
+              "w-16": type === "preview",
+              "small:w-24 w-12": type === "full",
+            })}
+          >
+            <Thumbnail
+              thumbnail={item.thumbnail}
+              images={item.variant?.product?.images}
+              size="square"
+            />
+          </div>
+        ) : (
+          <LocalizedClientLink
+            href={`/products/${item.product_handle}`}
+            className={clx("flex", {
+              "w-16": type === "preview",
+              "small:w-24 w-12": type === "full",
+            })}
+          >
+            <Thumbnail
+              thumbnail={item.thumbnail}
+              images={item.variant?.product?.images}
+              size="square"
+            />
+          </LocalizedClientLink>
+        )}
       </Table.Cell>
 
       <Table.Cell className="text-left">
@@ -159,9 +189,10 @@ const Item = ({
           className="txt-medium-plus text-ui-fg-base"
           data-testid="product-title"
         >
-          {item.product_title}
+          {title}
         </Text>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
+        <BlendLineDetails metadata={item.metadata} />
       </Table.Cell>
 
       {type === "full" && (

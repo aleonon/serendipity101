@@ -1,10 +1,6 @@
 import { listCategories } from "@lib/data/categories"
 
-/**
- * Placeholder route for the Blend Builder. The builder itself is not implemented
- * yet, so the page only announces it. Keeping the path here means the future
- * implementation can move the route without touching every CTA.
- */
+/** Custom blend builder. CTAs should keep using this path. */
 export const BLEND_BUILDER_PATH = "/crear-mezcla"
 
 export const CATALOG_PATH = "/store"
