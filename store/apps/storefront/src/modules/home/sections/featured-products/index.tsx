@@ -1,5 +1,6 @@
 import { getCategoryIdByHandle } from "@lib/data/categories"
 import { listProducts } from "@lib/data/products"
+import { Reveal } from "@modules/animation"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import EditorialHeading from "@modules/design-system/components/editorial-heading"
 import Eyebrow from "@modules/design-system/components/eyebrow"
@@ -48,7 +49,11 @@ const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
       className="border-b border-serendipity-border"
     >
       <SectionContainer>
-        <div className="flex flex-col gap-6 xsmall:flex-row xsmall:items-end xsmall:justify-between">
+        <Reveal
+          fade={false}
+          y={12}
+          className="flex flex-col gap-6 xsmall:flex-row xsmall:items-end xsmall:justify-between"
+        >
           <div>
             <Eyebrow>Selección</Eyebrow>
             <EditorialHeading
@@ -66,7 +71,7 @@ const FeaturedProducts = async ({ countryCode }: FeaturedProductsProps) => {
           >
             Ver todo el catálogo
           </LocalizedClientLink>
-        </div>
+        </Reveal>
 
         <ul className="mt-14 grid grid-cols-2 gap-x-6 gap-y-14 small:grid-cols-4 small:gap-x-8">
           {products.map((product, index) => (

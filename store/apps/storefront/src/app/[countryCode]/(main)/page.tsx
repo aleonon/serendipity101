@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 import BlendCTA from "@modules/home/sections/blend-cta"
-import BotanicalIntro from "@modules/home/sections/botanical-intro"
+import BotanicalStorySection from "@modules/home/sections/botanical-story"
 import FeaturedProducts from "@modules/home/sections/featured-products"
 import HeroSection from "@modules/home/sections/hero-section"
 import PickupSection from "@modules/home/sections/pickup-section"
@@ -20,7 +20,7 @@ export default async function Home(props: {
   return (
     <>
       <HeroSection />
-      <BotanicalIntro />
+      <BotanicalStorySection />
       <FeaturedProducts countryCode={countryCode} />
       <BlendCTA />
       <PickupSection />

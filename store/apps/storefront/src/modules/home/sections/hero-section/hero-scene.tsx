@@ -2,6 +2,11 @@
 
 import { gsap, useGSAP } from "@lib/animation/gsap"
 import { FULL_MOTION_QUERY } from "@lib/animation/reduced-motion"
+import BloomSequence, {
+  BLOOM_FRAMES,
+  BLOOM_FRAME_COUNT,
+  type BloomSequenceHandle,
+} from "@modules/animation/bloom-sequence"
 import BotanicalMark from "@modules/design-system/components/botanical-mark"
 import SceneRoot from "@modules/design-system/components/scene-root"
 import SectionContainer from "@modules/design-system/components/section-container"
@@ -30,6 +35,7 @@ type SceneTargets = {
   leafRight: HTMLElement
   flower01: HTMLElement
   flower02: HTMLElement
+  bloom: BloomSequenceHandle
 }
 
 /**
@@ -45,6 +51,7 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
   const leafRightRef = useRef<HTMLDivElement>(null)
   const flower01Ref = useRef<HTMLDivElement>(null)
   const flower02Ref = useRef<HTMLDivElement>(null)
+  const bloomRef = useRef<BloomSequenceHandle>(null)
 
   useGSAP(
     () => {
@@ -57,6 +64,7 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
         leafRight: leafRightRef.current,
         flower01: flower01Ref.current,
         flower02: flower02Ref.current,
+        bloom: bloomRef.current,
       })
 
       if (!targets) {
@@ -98,6 +106,7 @@ const HeroScene = ({ copy }: HeroSceneProps) => {
         </div>
 
         <div className="relative z-10 min-w-0 w-full">
+          <BloomSequence ref={bloomRef} frames={BLOOM_FRAMES} />
           <HeroBotanicalLayer
             ref={leafLeftRef}
             src={LEAF_LEFT}
@@ -138,7 +147,8 @@ function readTargets(targets: {
     !targets.leafLeft ||
     !targets.leafRight ||
     !targets.flower01 ||
-    !targets.flower02
+    !targets.flower02 ||
+    !targets.bloom
   ) {
     return null
   }
@@ -194,6 +204,8 @@ function buildDesktopTimeline(targets: SceneTargets) {
     .to(flower02, { y: 0, scale: 1, duration: 0.2 }, 0.8)
     .to(flower01, { y: 0, scale: 1, duration: 0.2 }, 0.8)
 
+  attachBloom(timeline, targets.bloom)
+
   return timeline
 }
 
@@ -233,7 +245,32 @@ function buildCompactTimeline(targets: SceneTargets) {
     .to(flower02, { y: 0, scale: 1, opacity: 1, duration: 0.4 }, 0.35)
     .to(flower01, { y: 0, scale: 1, opacity: 1, duration: 0.4 }, 0.4)
 
+  attachBloom(timeline, targets.bloom)
+
   return timeline
+}
+
+/**
+ * Same scrubbed timeline as the hero. The bloom plays through the first 85%
+ * and holds the last frame while the botanical composition settles.
+ * Phones and reduced motion ignore renderFrame and keep a still.
+ */
+function attachBloom(timeline: gsap.core.Timeline, bloom: BloomSequenceHandle) {
+  const sequence = { frame: 0 }
+  const lastFrame = BLOOM_FRAME_COUNT - 1
+
+  timeline.to(
+    sequence,
+    {
+      frame: lastFrame,
+      duration: timeline.duration() * 0.85,
+      ease: "none",
+      onUpdate: () => {
+        bloom.renderFrame(Math.round(sequence.frame))
+      },
+    },
+    0
+  )
 }
 
 export default HeroScene
